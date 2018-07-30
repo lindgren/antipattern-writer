@@ -12,5 +12,5 @@ Pros:
 
 Cons:
 * Code feels bloated (just a feeling!!)
-* No test written for `MyGraphiteSocketFactory`. Maybe that is ok, as there isn't any behavour to test in this class?
+* No test written for `MyGraphiteSocketFactory`. Maybe that is ok, as there isn't any behavour in this class, thoughts?
 
