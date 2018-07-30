@@ -1,7 +1,7 @@
 # Antipattern
 
 ## Overview
-I came across a little snippet of code which neatly sends metrics to a Graphite server. The caveat is that the code isn't
+I came across a little code snippet which neatly sends metrics to a Graphite server. The caveat is that the code isn't
 easily testable. Take a look at `uk.co.lindgrens.antipattern.MyGraphiteMessageSender` and see what you think.
 
 ### Refactoring attempt 1 (tddstyle1)
