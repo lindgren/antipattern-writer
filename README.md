@@ -25,4 +25,4 @@ Pros:
 
 Cons:
 * Giving up on private visibility on methods
-* Too much tempering with setup by overriding various methods in the class under test.
+* Too much tampering with setup by overriding various methods in the class under test.
