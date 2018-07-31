@@ -11,15 +11,15 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class MyGraphiteMessageSenderTest {
+class GraphiteClientTest {
 
     @Test
     void should_send_message() throws IOException {
 
         ServerSocket serverSocket = new ServerSocket(0);
-        MyGraphiteMessageSender sender = new MyGraphiteMessageSender("localhost", serverSocket.getLocalPort());
+        GraphiteClient sender = new GraphiteClient("localhost", serverSocket.getLocalPort());
 
-        sender.send("key", "value", 1234566L);
+        sender.sendMetric("key", "value", 1234566L);
 
         BufferedReader input = new BufferedReader(new InputStreamReader(serverSocket.accept().getInputStream()));
 
@@ -36,9 +36,9 @@ class MyGraphiteMessageSenderTest {
 
         Exception e = assertThrows(RuntimeException.class, () -> {
 
-            MyGraphiteMessageSender sender = new MyGraphiteMessageSender("wrong-hostname", 8080);
+            GraphiteClient sender = new GraphiteClient("wrong-hostname", 8080);
 
-            sender.send("key", "value", 1234566L);
+            sender.sendMetric("key", "value", 1234566L);
 
         });
 
@@ -52,9 +52,9 @@ class MyGraphiteMessageSenderTest {
         Exception e = assertThrows(RuntimeException.class, () -> {
 
             ServerSocket serverSocket = new ServerSocket(0);
-            MyGraphiteMessageSender sender = new MyGraphiteMessageSender("localhost", serverSocket.getLocalPort() - 1);
+            GraphiteClient sender = new GraphiteClient("localhost", serverSocket.getLocalPort() - 1);
 
-            sender.send("key", "value", 1234566L);
+            sender.sendMetric("key", "value", 1234566L);
 
             serverSocket.close();
 
@@ -70,10 +70,10 @@ class MyGraphiteMessageSenderTest {
         Exception e = assertThrows(RuntimeException.class, () -> {
 
             ServerSocket serverSocket = new ServerSocket(0);
-            MyGraphiteMessageSender sender = new MyGraphiteMessageSender("localhost", serverSocket.getLocalPort());
+            GraphiteClient sender = new GraphiteClient("localhost", serverSocket.getLocalPort());
             serverSocket.close();
 
-            sender.send("key", "value", 1234566L);
+            sender.sendMetric("key", "value", 1234566L);
 
         });
 

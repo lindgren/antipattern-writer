@@ -4,19 +4,19 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class MyGraphiteMessageSender {
+public class GraphiteClient {
 
     private final int graphitePort;
     private final String graphiteHost;
 
-    public MyGraphiteMessageSender(String graphiteHost, int graphitePort) {
+    public GraphiteClient(String graphiteHost, int graphitePort) {
         this.graphiteHost = graphiteHost;
         this.graphitePort = graphitePort;
     }
 
-    public void send(String key, String value, long timestamp) {
+    public void sendMetric(String key, String value, long timestamp) {
 
-        String message = getFormattedMessage(key, value, timestamp);
+        String message = createMessage(key, value, timestamp);
         send(message);
 
     }
@@ -35,7 +35,7 @@ public class MyGraphiteMessageSender {
         }
     }
 
-    private String getFormattedMessage(String key, String value, long timestamp) {
+    private String createMessage(String key, String value, long timestamp) {
         return String.format("%s %s %d%n", key, value, timestamp);
     }
 
