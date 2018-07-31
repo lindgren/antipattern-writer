@@ -1,12 +1,11 @@
 package uk.co.lindgrens.carlosStyle;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
 public class MyGraphiteMessageSender {
-    
+
     private final int graphitePort;
     private final String graphiteHost;
 
@@ -15,18 +14,29 @@ public class MyGraphiteMessageSender {
         this.graphitePort = graphitePort;
     }
 
-    public void sendMessage(String key, String value, long timestamp) {
-        try {
-            Socket socket = createSocket();
-            OutputStream s = socket.getOutputStream();
+    public void send(String key, String value, long timestamp) {
 
-            PrintWriter out = new PrintWriter(s, true);
-            out.printf("%s %s %d%n", key, value, timestamp);
-            out.close();
-            socket.close();
+        String message = getFormattedMessage(key, value, timestamp);
+        send(message);
+
+    }
+
+    private void send(String message) {
+
+        try (
+                Socket socket = createSocket();
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+        ) {
+            out.write(message);
+
         } catch (IOException e) {
-            throw new RuntimeException("Unknown host: " + graphiteHost);
+            //Custom exception here
+            throw new RuntimeException("Error while sending message: " + e.getMessage(), e);
         }
+    }
+
+    private String getFormattedMessage(String key, String value, long timestamp) {
+        return String.format("%s %s %d%n", key, value, timestamp);
     }
 
     private Socket createSocket() throws IOException {
